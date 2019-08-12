@@ -3,6 +3,7 @@
 int main() {
     t_app app;
     t_entity player;
+    SDL_Rect dest;
 
     memset(&app, 0, sizeof(app));
     memset(&player, 0, sizeof(player));
@@ -15,7 +16,7 @@ int main() {
     
 
     while (1) {
-        prepare_scene(&app);
+        prepare_scene(&app, &dest);
         do_input(&app);
 
         if (app.up)

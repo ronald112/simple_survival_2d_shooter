@@ -12,11 +12,11 @@ void do_input(t_app *app) {
             break;
             
         case SDL_KEYDOWN:
-			doKeyDown(&event.key);
+			doKeyDown(&event.key, app);
 			break;
 
         case SDL_KEYUP:
-			doKeyUp(&event.key);
+			doKeyUp(&event.key, app);
 			break;
         
         default:
