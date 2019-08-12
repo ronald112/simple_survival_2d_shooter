@@ -1,91 +1,44 @@
 #include "header.h"
 
-typedef struct t_mouse {
-    int x;
-    int y;
-} s_mouse;
-
-typedef struct s_app{
-    SDL_Renderer *renderer;
-    SDL_Window *window;
-
-    s_mouse mouse;
-} t_app;
-
-static void init_SDL(t_app *app) {
-    int render_flags = 0, window_flags = 0;
-    render_flags = SDL_RENDERER_ACCELERATED;
-
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        printf("Couldn't initialize SDL: %s\n", SDL_GetError());
-        exit(1);
-    }
-    app->window = SDL_CreateWindow("Shooter 01", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, window_flags);
-    if (!app->window) {
-        printf("Failed to open %d x %d window: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());
-        exit(1);
-    }
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-    app->renderer = SDL_CreateRenderer(app->window, SDL_RENDERER_SOFTWARE, render_flags);
-
-    if (!app->renderer) {
-        printf("Failed to create renderer: %s\n", SDL_GetError());
-        exit(1);
-    }
-}
-
-static void do_input(t_app *app) {
-    SDL_Event event;
-    SDL_GetMouseState(app->mouse.x, app->mouse.y);
-
-    while(SDL_PollEvent(&event)) {
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            exit(0);
-            break;
-        
-        default:
-            break;
-        }
-    }
-}
-
-static void init_stage(t_app *app) {
-    
-}
-
-static void prepare_scene(t_app *app) {
-    SDL_SetRenderDrawColor(app->renderer, 51, 0, 0, 255);
-    SDL_RenderClear(app->renderer);
-}
-
-static void present_scene(t_app *app) {
-    SDL_RenderPresent(app->renderer);
-}
-
-static void cleanup(t_app *app)
-{
-	SDL_DestroyRenderer(app->renderer);
-	
-	SDL_DestroyWindow(app->window);
-	
-	SDL_Quit();
-}
-
-
 int main() {
     t_app app;
+    t_entity player;
+
     memset(&app, 0, sizeof(app));
+    memset(&player, 0, sizeof(player));
 
     init_SDL(&app);
 
+    player.texture = loadTexture("gfx/player.png", &app);
+    player.x = 100;
+    player.y = 100;
     
 
-    while (1)
-    {
+    while (1) {
         prepare_scene(&app);
         do_input(&app);
+
+        if (app.up)
+		{
+			player.y -= 4;
+		}
+		
+		if (app.down)
+		{
+			player.y += 4;
+		}
+		
+		if (app.left)
+		{
+			player.x -= 4;
+		}
+		
+		if (app.right)
+		{
+			player.x += 4;
+		}
+
+        blit(player.texture, player.x, player.y, &app);
         present_scene(&app);
         SDL_Delay(16);
     }
