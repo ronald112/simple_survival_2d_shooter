@@ -8,6 +8,16 @@ int main() {
     memset(&app, 0, sizeof(app));
     memset(&player, 0, sizeof(player));
 
+    // sounds
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+
+	Mix_Music *main_menu_music = Mix_LoadMUS("resource/Audio/Music/ElectroHouse.mp3");
+	Mix_Chunk *cave_background_sounds = Mix_LoadWAV("resource/Audio/Sounds/Background/Cave.wav");
+	Mix_Chunk *steps_sounds = Mix_LoadWAV("resource/Audio/Sounds/Footsteps_on_sand.wav");
+
+
+
+
     init_SDL(&app);
 
     player.texture = loadTexture("gfx/player.png", &app);
@@ -15,27 +25,32 @@ int main() {
     player.y = 100;
     
 
+    Mix_PlayMusic(main_menu_music, -1);
+	//Mix_VolumeMusic(30);
+	//Mix_PlayChannel(6, cave_background_sounds, -1);
+	Mix_VolumeChunk(cave_background_sounds, 50);
+
     while (1) {
         prepare_scene(&app, &dest);
-        do_input(&app);
+        do_input(&app, steps_sounds);
 
-        if (app.up)
-		{
+        if (app.up && player.y > 7)	{
+			// change lookup
 			player.y -= 4;
 		}
 		
-		if (app.down)
-		{
+		if (app.down && player.y < SCREEN_HEIGHT - 50) {
+			// change lookdown
 			player.y += 4;
 		}
 		
-		if (app.left)
-		{
+		if (app.left && player.x > 7) {
+			// change lookleft
 			player.x -= 4;
 		}
 		
-		if (app.right)
-		{
+		if (app.right && player.x < SCREEN_WIDTH - 50) {
+			 // change lookright
 			player.x += 4;
 		}
 
@@ -43,6 +58,11 @@ int main() {
         present_scene(&app);
         SDL_Delay(16);
     }
+    Mix_FreeMusic(main_menu_music);
+	Mix_FreeChunk(cave_background_sounds);
+	Mix_FreeChunk(steps_sounds);
+	Mix_CloseAudio();
+
     cleanup(&app);
 
     return 0;

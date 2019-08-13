@@ -41,7 +41,7 @@ typedef struct s_entity{
 
 static void init_stage(t_app *app);
 void init_SDL(t_app *app);
-void do_input(t_app *app);
+void do_input(t_app *app, Mix_Chunk *steps_sounds);
 void cleanup(t_app *app);
 
 // подготовка мапы и загрузка текстур
