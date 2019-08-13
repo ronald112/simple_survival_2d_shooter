@@ -4,19 +4,16 @@ int main() {
     t_app app;
     t_entity player;
     SDL_Rect dest;
+    t_sounds sound;
 
     memset(&app, 0, sizeof(app));
     memset(&player, 0, sizeof(player));
 
     // sounds
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-
-	Mix_Music *main_menu_music = Mix_LoadMUS("resource/Audio/Music/ElectroHouse.mp3");
-	Mix_Chunk *cave_background_sounds = Mix_LoadWAV("resource/Audio/Sounds/Background/Cave.wav");
-	Mix_Chunk *steps_sounds = Mix_LoadWAV("resource/Audio/Sounds/Footsteps_on_sand.wav");
-
-
-
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);	
+    sound.main_menu_music = Mix_LoadMUS("resource/Audio/Music/ElectroHouse.mp3");
+	sound.cave_background_sounds = Mix_LoadWAV("resource/Audio/Sounds/Background/Cave.wav");
+	sound.steps_sounds = Mix_LoadWAV("resource/Audio/Sounds/Footsteps_on_sand.wav");
 
     init_SDL(&app);
 
@@ -25,14 +22,14 @@ int main() {
     player.y = 100;
     
 
-    Mix_PlayMusic(main_menu_music, -1);
-	//Mix_VolumeMusic(30);
+    Mix_PlayMusic(sound.main_menu_music, -1);
+	Mix_VolumeMusic(5);
 	//Mix_PlayChannel(6, cave_background_sounds, -1);
-	Mix_VolumeChunk(cave_background_sounds, 50);
+	Mix_VolumeChunk(sound.cave_background_sounds, 50);
 
     while (1) {
         prepare_scene(&app, &dest);
-        do_input(&app, steps_sounds);
+        do_input(&app, sound.steps_sounds);
 
         if (app.up && player.y > 7)	{
 			// change lookup
@@ -58,9 +55,9 @@ int main() {
         present_scene(&app);
         SDL_Delay(16);
     }
-    Mix_FreeMusic(main_menu_music);
-	Mix_FreeChunk(cave_background_sounds);
-	Mix_FreeChunk(steps_sounds);
+    Mix_FreeMusic(sound.main_menu_music);
+	Mix_FreeChunk(sound.cave_background_sounds);
+	Mix_FreeChunk(sound.steps_sounds);
 	Mix_CloseAudio();
 
     cleanup(&app);

@@ -22,14 +22,12 @@ typedef struct s_mouse {
 typedef struct s_app{
     SDL_Renderer *renderer;
     SDL_Window *window;
-    int *background;
-    // SDL_Texture *texture_app;
-
+    SDL_Surface *background_sf;
+    SDL_Texture *background_tx;
     int up;
 	int down;
 	int left;
 	int right;
-
     t_mouse mouse;
 } t_app;
 
@@ -38,6 +36,12 @@ typedef struct s_entity{
 	int y;
 	SDL_Texture *texture;
 } t_entity;
+
+typedef struct s_sounds {
+    Mix_Music *main_menu_music;
+    Mix_Chunk *cave_background_sounds;
+    Mix_Chunk *steps_sounds;
+}t_sounds;
 
 static void init_stage(t_app *app);
 void init_SDL(t_app *app);

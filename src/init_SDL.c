@@ -21,12 +21,9 @@ void init_SDL(t_app *app) {
         printf("Failed to create renderer: %s\n", SDL_GetError());
         exit(1);
     }
-    // img не работает
-    IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-
-    //app->background = loadTexture("gfx/background.jpg", app);
-      
+    IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);     
 		
-	
+	app->background_sf = SDL_LoadBMP("gfx/background.bmp");
+    app->background_tx = SDL_CreateTextureFromSurface(app->renderer, app->background_sf);
     
 }
