@@ -1,27 +1,28 @@
 #include "header.h"
 
-void doKeyDown(SDL_KeyboardEvent *event, t_app *app)
+void doKeyDown(SDL_KeyboardEvent *event, t_app *app, t_entity *player)
 {
 	if (event->repeat == 0)
 	{
 		if (event->keysym.scancode == SDL_SCANCODE_W)
 		{
-			app->up = 1;
+			app->up = 4;
 		}
 		
 		if (event->keysym.scancode == SDL_SCANCODE_S)
 		{
-			app->down = 1;
+			app->down = 4;
 		}
 		
 		if (event->keysym.scancode == SDL_SCANCODE_A)
 		{
-			app->left = 1;
+			app->left = 4;
 		}
 		
 		if (event->keysym.scancode == SDL_SCANCODE_D)
 		{
-			app->right = 1;
-		}
+			app->right = 4;
+		}		
 	}
+	
 }

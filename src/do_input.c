@@ -1,8 +1,8 @@
 #include "header.h"
 
-void do_input(t_app *app, Mix_Chunk *steps_sounds) {
+void do_input(t_app *app, Mix_Chunk *steps_sounds, t_entity *player) {
     SDL_Event event;
-    SDL_GetMouseState(&app->mouse.x, &app->mouse.y);
+    
 
     while(SDL_PollEvent(&event)) {
         switch (event.type)
@@ -12,9 +12,9 @@ void do_input(t_app *app, Mix_Chunk *steps_sounds) {
             break;
             
         case SDL_KEYDOWN:
-			doKeyDown(&event.key, app);
+			doKeyDown(&event.key, app, player);
 
-            doKeyDown(&event.key, app);
+            
 			if( (&event.key)->keysym.scancode == SDL_SCANCODE_W || 
 				(&event.key)->keysym.scancode == SDL_SCANCODE_S ||
 				(&event.key)->keysym.scancode == SDL_SCANCODE_A ||
@@ -41,4 +41,5 @@ void do_input(t_app *app, Mix_Chunk *steps_sounds) {
             break;
         }
     }
+	
 }

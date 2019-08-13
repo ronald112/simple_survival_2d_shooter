@@ -1,35 +1,65 @@
 #include "header.h"
 
+static void capFrameRate(long *then, float *remainder)
+{
+	long wait, frameTime;
+	
+	wait = 16 + *remainder;
+	
+	*remainder -= (int)*remainder;
+	
+	frameTime = SDL_GetTicks() - *then;
+	
+	wait -= frameTime;
+	
+	if (wait < 1)
+	{
+		wait = 1;
+	}
+		
+	SDL_Delay(wait);
+	
+	*remainder += 0.667;
+	
+	*then = SDL_GetTicks();
+}
+
 int main() {
     t_app app;
     t_entity player;
     SDL_Rect dest;
     t_sounds sound;
+    t_stage stage;
 
     memset(&app, 0, sizeof(app));
-    memset(&player, 0, sizeof(player));
-
+    memset(&player, 0, sizeof(player));  
+    
+    init_SDL(&app);
+    
+    // player.x = 100;
+    // player.y = 100;
+    
+    init_stage(&player, &stage, &app);
+    
     // sounds
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);	
     sound.main_menu_music = Mix_LoadMUS("resource/Audio/Music/ElectroHouse.mp3");
 	sound.cave_background_sounds = Mix_LoadWAV("resource/Audio/Sounds/Background/Cave.wav");
 	sound.steps_sounds = Mix_LoadWAV("resource/Audio/Sounds/Footsteps_on_sand.wav");
-
-    init_SDL(&app);
-
-    player.texture = loadTexture("gfx/player.png", &app);
-    player.x = 100;
-    player.y = 100;
-    
-
     Mix_PlayMusic(sound.main_menu_music, -1);
 	Mix_VolumeMusic(5);
 	//Mix_PlayChannel(6, cave_background_sounds, -1);
 	Mix_VolumeChunk(sound.cave_background_sounds, 50);
 
+    long then = SDL_GetTicks();	
+	float remainder = 0;
+
     while (1) {
         prepare_scene(&app, &dest);
-        do_input(&app, sound.steps_sounds);
+        do_input(&app, sound.steps_sounds, &player);
+        SDL_GetMouseState(&app.mouse.x, &app.mouse.y);
+
+        logic(&stage, &player, &app);
 
         if (app.up && player.y > 7)	{
 			// change lookup
@@ -51,9 +81,10 @@ int main() {
 			player.x += 4;
 		}
 
-        blit(player.texture, player.x, player.y, &app);
+        
+        draw(&player, &stage, &app);
         present_scene(&app);
-        SDL_Delay(16);
+        capFrameRate(&then, &remainder);
     }
     Mix_FreeMusic(sound.main_menu_music);
 	Mix_FreeChunk(sound.cave_background_sounds);
@@ -64,6 +95,11 @@ int main() {
 
     return 0;
 }
+
+
+
+
+
 
 
 /*

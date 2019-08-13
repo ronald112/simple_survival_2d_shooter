@@ -11,8 +11,11 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
+#define PI 3.14159265358979323846
+#define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 1080
+#define MIN(a,b) (((a)<(b))?(a):(b))
+#define MAX(a,b) (((a)>(b))?(a):(b))
 
 typedef struct s_mouse {
     int x;
@@ -31,11 +34,24 @@ typedef struct s_app{
     t_mouse mouse;
 } t_app;
 
-typedef struct s_entity{
-	int x;
-	int y;
+// player
+typedef struct s_entity{ 
+	float x;
+	float y;
+    int w;
+    int h;
+    float dx;
+    float dy;
+    int health;
+    int angle;
 	SDL_Texture *texture;
+    struct s_entity *next;
 } t_entity;
+
+// Stage
+typedef struct s_stage {
+    t_entity entity_head, *entity_tail;
+}t_stage;
 
 typedef struct s_sounds {
     Mix_Music *main_menu_music;
@@ -43,9 +59,9 @@ typedef struct s_sounds {
     Mix_Chunk *steps_sounds;
 }t_sounds;
 
-static void init_stage(t_app *app);
+void init_stage(t_entity *player, t_stage *stage, t_app *app);
 void init_SDL(t_app *app);
-void do_input(t_app *app, Mix_Chunk *steps_sounds);
+void do_input(t_app *app, Mix_Chunk *steps_sounds, t_entity *player);
 void cleanup(t_app *app);
 
 // подготовка мапы и загрузка текстур
@@ -56,8 +72,17 @@ SDL_Texture *loadTexture(char *filename, t_app *app);
 void blit(SDL_Texture *texture, int x, int y, t_app *app);
 
 // движения героя
-void doKeyDown(SDL_KeyboardEvent *event, t_app *app);
+void doKeyDown(SDL_KeyboardEvent *event, t_app *app, t_entity *player);
 void doKeyUp(SDL_KeyboardEvent *event, t_app *app);
+
+// поворот за мишью
+float get_angle(int x1, int y1, int x2, int y2);
+void blit_rotated(SDL_Texture *texture, int x, int y, float angle, t_app *app);
+void draw_entities(t_stage *stage, t_app *app);
+void do_entities(t_stage *stage, t_entity *player);
+void logic(t_stage *stage, t_entity *player, t_app *app);
+void draw(t_entity *player, t_stage *stage, t_app *app);
+void init_player(t_entity *player, t_stage *stage, t_app *app);
 
 
 

@@ -15,6 +15,10 @@ SRCS = src/Hello_main.c \
 		src/blit.c \
 		src/do_key_down.c \
 		src/do_key_up.c \
+		src/get_angle.c \
+		src/blit_rotated.c \
+		src/do_entities.c \
+		src/init_player.c \
 
 
 SRCSBIN = Hello_main.c \
@@ -26,6 +30,10 @@ SRCSBIN = Hello_main.c \
 		blit.c \
 		do_key_down.c \
 		do_key_up.c \
+		get_angle.c \
+		blit_rotated.c \
+		do_entities.c \
+		init_player.c \
 
 CFLAGS = -std=c11 
 #-std=c11 -Wall -Wextra -Werror -Wpedantic
