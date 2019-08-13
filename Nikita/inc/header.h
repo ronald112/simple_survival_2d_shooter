@@ -52,7 +52,7 @@ SDL_Texture *loadTexture(char *filename, t_app *app);
 void blit(SDL_Texture *texture, int x, int y, t_app *app);
 
 // движения героя
-void doKeyDown(SDL_KeyboardEvent *event, t_app *app, Mix_Chunk *steps_sounds);
+void doKeyDown(SDL_KeyboardEvent *event, t_app *app);
 void doKeyUp(SDL_KeyboardEvent *event, t_app *app);
 
 

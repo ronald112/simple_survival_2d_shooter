@@ -1,2 +1,0 @@
-# simple_survival_2d_shooter
-simple_survival_2d_shooter
