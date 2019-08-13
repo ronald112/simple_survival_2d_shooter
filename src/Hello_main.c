@@ -61,24 +61,24 @@ int main() {
 
         logic(&stage, &player, &app);
 
-        if (app.up && player.y > 7)	{
+        if (app.up )	{
 			// change lookup
-			player.y -= 4;
+			player.y -= 20;
 		}
 		
-		if (app.down && player.y < SCREEN_HEIGHT - 50) {
+		if (app.down) {
 			// change lookdown
-			player.y += 4;
+			player.y += 20;
 		}
 		
-		if (app.left && player.x > 7) {
+		if (app.left) {
 			// change lookleft
-			player.x -= 4;
+			player.x -= 20;
 		}
 		
-		if (app.right && player.x < SCREEN_WIDTH - 50) {
+		if (app.right) {
 			 // change lookright
-			player.x += 4;
+			player.x += 20;
 		}
 
         

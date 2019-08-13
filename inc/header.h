@@ -65,7 +65,7 @@ void do_input(t_app *app, Mix_Chunk *steps_sounds, t_entity *player);
 void cleanup(t_app *app);
 
 // подготовка мапы и загрузка текстур
-//void prepare_scene(t_app *app);
+// void prepare_scene(t_app *app);
 void prepare_scene(t_app *app, SDL_Rect *dest);
 void present_scene(t_app *app);
 SDL_Texture *loadTexture(char *filename, t_app *app);
@@ -84,9 +84,4 @@ void logic(t_stage *stage, t_entity *player, t_app *app);
 void draw(t_entity *player, t_stage *stage, t_app *app);
 void init_player(t_entity *player, t_stage *stage, t_app *app);
 
-
-
-
 #endif
-
-
