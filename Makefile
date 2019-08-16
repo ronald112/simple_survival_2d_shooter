@@ -6,34 +6,19 @@ INC = inc/header.h
 
 HEADBIN = header.h
 
-SRCS = src/Hello_main.c \
-		src/init_SDL.c \
-		src/do_input.c \
-		src/prepare_scene.c \
+SRCS = src/main.c \
+		src/inits.c \
+		src/input.c \
 		src/cleanup.c \
-		src/load_Texture.c \
-		src/blit.c \
-		src/do_key_down.c \
-		src/do_key_up.c \
-		src/get_angle.c \
-		src/blit_rotated.c \
-		src/do_entities.c \
-		src/init_player.c \
+		src/logic.c \
+		src/draw.c \
 
-
-SRCSBIN = Hello_main.c \
-		init_SDL.c \
-		do_input.c \
-		prepare_scene.c \
+SRCSBIN = main.c \
+		inits.c \
+		input.c \
 		cleanup.c \
-		load_Texture.c \
-		blit.c \
-		do_key_down.c \
-		do_key_up.c \
-		get_angle.c \
-		blit_rotated.c \
-		do_entities.c \
-		init_player.c \
+		logic.c \
+		draw.c \
 
 CFLAGS = -std=c11 
 #-std=c11 -Wall -Wextra -Werror -Wpedantic
@@ -48,9 +33,8 @@ FFLAGS = -I ./Frameworks/SDL2.framework/Versions/A/Header \
 -F ./Frameworks -framework SDL2_mixer -rpath ./frameworks \
 
 
-
 all: install uninstall
-dbg: debug clean
+dbg: debug uninstall
 
 #@gcc $(SRCSBIN) $(CFLAGS) $(NAME) $(SRCSBIN)
 #@cp $(INC) .
